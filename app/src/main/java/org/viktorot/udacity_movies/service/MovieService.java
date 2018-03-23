@@ -14,14 +14,14 @@ import okhttp3.Response;
 
 public class MovieService {
 
-    private static final String URL = "https://api.themoviedb.org/3/discover/movie?";
+    private static final String URL = "https://api.themoviedb.org/3/movie/";
     private static final String MOVIE_URL = "https://api.themoviedb.org/3/movie/";
 
     private static final String ARG_SORT = "sort_by";
     private static final String ARG_API_KEY = "api_key";
 
-    private static final String SORT_POPULARITY = "popularity.desc";
-    private static final String SORT_VOTE = "vote_count.desc";
+    private static final String SORT_POPULARITY = "popular";
+    private static final String SORT_VOTE = "top_rated";
 
     private static final String IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
 
@@ -55,7 +55,7 @@ public class MovieService {
 
         return Single.fromCallable(() -> {
             Request request = new Request.Builder()
-                    .url(URL + ARG_SORT + "=" + sortParam + "&" + ARG_API_KEY + "=" + API_KEY)
+                    .url(URL + sortParam + "?" + ARG_API_KEY + "=" + API_KEY)
                     .build();
 
             Response response = client.newCall(request).execute();
