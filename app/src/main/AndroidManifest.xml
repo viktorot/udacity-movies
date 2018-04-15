@@ -26,6 +26,13 @@
             android:name=".ui.details.DetailsActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".ui.grid.MainActivity" />
+
+        <provider
+            android:authorities="@string/app_content_authority"
+            android:name=".db.MoviesProvider"
+            android:exported="false"
+            android:syncable="true"/>
+
     </application>
 
 </manifest>
