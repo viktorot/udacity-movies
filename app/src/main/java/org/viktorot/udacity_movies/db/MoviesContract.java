@@ -15,9 +15,13 @@ public class MoviesContract {
         public static final String TABLE_NAME = "favourites";
         // columns
         public static final String _ID = "_id";
-        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_ORIGINAL_TITLE = "original_title";
         public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_SCORE = "score";
+        public static final String COLUMN_FAVOURITE = "favourite";
         public static final String COLUMN_IMAGE_URL = "image_url";
+        public static final String COLUMN_TIMESTAMP = "timestamp";
 
         // create content uri
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()

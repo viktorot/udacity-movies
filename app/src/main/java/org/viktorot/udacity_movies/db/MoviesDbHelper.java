@@ -18,9 +18,13 @@ public class MoviesDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_FAV = "CREATE TABLE " +
                 MoviesContract.FavouriteEntry.TABLE_NAME + "( " +
                 MoviesContract.FavouriteEntry._ID + " TEXT PRIMARY KEY NOT NULL, " +
-                MoviesContract.FavouriteEntry.COLUMN_NAME + " TEXT NOT NULL, " +
+                MoviesContract.FavouriteEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
+                MoviesContract.FavouriteEntry.COLUMN_ORIGINAL_TITLE + " TEXT NOT NULL, " +
                 MoviesContract.FavouriteEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
-                MoviesContract.FavouriteEntry.COLUMN_IMAGE_URL + " TEXT NOT NULL " +
+                MoviesContract.FavouriteEntry.COLUMN_IMAGE_URL + " TEXT NOT NULL, " +
+                MoviesContract.FavouriteEntry.COLUMN_SCORE + " NUMBER NOT NULL," +
+                MoviesContract.FavouriteEntry.COLUMN_FAVOURITE + " NUMBER NOT NULL DEFAULT 0," +
+                MoviesContract.FavouriteEntry.COLUMN_TIMESTAMP + " NUMBER NOT NULL " +
                 ");";
 
         sqLiteDatabase.execSQL(SQL_CREATE_FAV);

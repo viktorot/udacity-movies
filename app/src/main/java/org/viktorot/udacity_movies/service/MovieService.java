@@ -1,5 +1,7 @@
 package org.viktorot.udacity_movies.service;
 
+import android.util.Log;
+
 import org.viktorot.udacity_movies.models.Movie;
 import org.viktorot.udacity_movies.models.Sort;
 import org.viktorot.udacity_movies.parsers.MovieParser;
@@ -17,11 +19,13 @@ public class MovieService {
     private static final String URL = "https://api.themoviedb.org/3/movie/";
     private static final String MOVIE_URL = "https://api.themoviedb.org/3/movie/";
 
-    private static final String ARG_SORT = "sort_by";
     private static final String ARG_API_KEY = "api_key";
 
     private static final String SORT_POPULARITY = "popular";
     private static final String SORT_VOTE = "top_rated";
+
+    private static final String PATH_TRAILERS = "videos";
+    private static final String PATH_REVIEWS = "reviews";
 
     private static final String IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
 
