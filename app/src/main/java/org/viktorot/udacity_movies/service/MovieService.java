@@ -3,7 +3,9 @@ package org.viktorot.udacity_movies.service;
 import android.util.Log;
 
 import org.viktorot.udacity_movies.models.Movie;
+import org.viktorot.udacity_movies.models.Review;
 import org.viktorot.udacity_movies.models.Sort;
+import org.viktorot.udacity_movies.models.Trailer;
 import org.viktorot.udacity_movies.parsers.MovieParser;
 
 import java.util.List;
@@ -69,18 +71,32 @@ public class MovieService {
                 .subscribeOn(Schedulers.io());
     }
 
-    public Single<Movie> getMovie(int id) {
+    public Single<List<Trailer>> getTrailers(int id) {
         return Single.fromCallable(() -> {
             Request request = new Request.Builder()
-                    .url(MOVIE_URL + id + "?" + ARG_API_KEY + "=" + API_KEY)
+                    .url(MOVIE_URL + id + "/" + PATH_TRAILERS + "?" + ARG_API_KEY + "=" + API_KEY)
                     .build();
 
             Response response = client.newCall(request).execute();
             return response.body().string();
         })
-                .map(MovieParser::parseMovie)
+                .map(MovieParser::parseTrailerList)
                 .subscribeOn(Schedulers.io());
     }
+
+    public Single<List<Review>> getReviews(int id) {
+        return Single.fromCallable(() -> {
+            Request request = new Request.Builder()
+                    .url(MOVIE_URL + id + "/" + PATH_REVIEWS + "?" + ARG_API_KEY + "=" + API_KEY)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        })
+                .map(MovieParser::parseReviewList)
+                .subscribeOn(Schedulers.io());
+    }
+
 
     public String getImageUrl(String path) {
         return IMAGE_URL + path;
