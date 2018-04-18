@@ -37,7 +37,7 @@ public class DetailsViewModel extends AndroidViewModel {
     public void setFavourite(boolean favourite) {
         Movie movie = this.movie.getValue();
         Disposable disp = MovieDb.setFavourite(getApplication().getContentResolver(), movie, favourite)
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> { this.favourite.setValue(favourite); }, this::onError);
 
         comp.add(disp);
@@ -45,7 +45,7 @@ public class DetailsViewModel extends AndroidViewModel {
 
     private void getFavouriteStatus(long id) {
         Disposable disp = MovieDb.isFavourite(getApplication().getContentResolver(), id)
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(fav -> { this.favourite.setValue(fav); }, this::onError);
 
         comp.add(disp);

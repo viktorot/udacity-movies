@@ -6,6 +6,7 @@
 
     <string name="action_sort_popularity">Popularity</string>
     <string name="action_sort_vote">Vote count</string>
+    <string name="action_sort_favourite">Favourites</string>
 
     <string name="label_original_title">Original title</string>
     <string name="label_release_date">Release date</string>

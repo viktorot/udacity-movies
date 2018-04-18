@@ -79,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_sort_vote) {
             viewModel.setSort(Sort.VoteCount);
             return true;
+        } else if (id == R.id.action_sort_favourite) {
+            viewModel.setSort(Sort.Favourites);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

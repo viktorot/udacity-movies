@@ -1,9 +1,12 @@
 package org.viktorot.udacity_movies.ui.grid;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
+import org.viktorot.udacity_movies.db.MovieDb;
 import org.viktorot.udacity_movies.models.Movie;
 import org.viktorot.udacity_movies.models.Sort;
 import org.viktorot.udacity_movies.service.MovieService;
@@ -13,7 +16,7 @@ import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
-public class MainViewModel extends ViewModel {
+public class MainViewModel extends AndroidViewModel {
 
     private static String TAG = MainViewModel.class.getSimpleName();
 
@@ -23,7 +26,8 @@ public class MainViewModel extends ViewModel {
 
     private Disposable disposable;
 
-    public MainViewModel() {
+    public MainViewModel(Application application) {
+        super(application);
         getData();
     }
 
@@ -36,9 +40,22 @@ public class MainViewModel extends ViewModel {
                 .subscribe(this::onMoviesSuccess, this::onMoviesError);
     }
 
+    private void getFavourites() {
+        if (disposable != null) {
+            disposable.dispose();
+        }
+        disposable = MovieDb.getFavouries(getApplication().getContentResolver())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onMoviesSuccess, this::onMoviesError);
+    }
+
     public void setSort(Sort sort) {
         this.sort = sort;
-        getData();
+        if (sort == Sort.Favourites) {
+            getFavourites();
+        } else {
+            getData();
+        }
     }
 
     private void onMoviesSuccess(List<Movie> movies) {
