@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +23,8 @@ import org.viktorot.udacity_movies.db.MovieDb;
 import org.viktorot.udacity_movies.db.MoviesContract;
 import org.viktorot.udacity_movies.models.Movie;
 import org.viktorot.udacity_movies.service.MovieService;
+import org.viktorot.udacity_movies.ui.details.reviews.ReviewsAdapter;
+import org.viktorot.udacity_movies.ui.details.trailers.TrailersAdapter;
 
 import io.reactivex.functions.Consumer;
 
@@ -37,6 +41,12 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView tvScore;
     private TextView tvOverview;
     private ToggleButton btnFav;
+
+    private RecyclerView rvTrailers;
+    private TrailersAdapter trailersAdapter = new TrailersAdapter();
+
+    private RecyclerView rvReviews;
+    private ReviewsAdapter reviewsAdapter = new ReviewsAdapter();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,6 +72,13 @@ public class DetailsActivity extends AppCompatActivity {
         btnFav.setTextOn(getResources().getString(R.string.label_favourite));
         btnFav.setOnCheckedChangeListener((view, checked) -> { viewModel.setFavourite(checked); });
 
+        rvTrailers = findViewById(R.id.trailers);
+        rvTrailers.setLayoutManager(new LinearLayoutManager(this));
+        rvTrailers.setAdapter(trailersAdapter);
+
+        rvReviews = findViewById(R.id.reviews);
+        rvReviews.setLayoutManager(new LinearLayoutManager(this));
+        rvReviews.setAdapter(reviewsAdapter);
 
         viewModel = ViewModelProviders.of(this).get(DetailsViewModel.class);
         viewModel.movie.observe(this, movie -> {
@@ -78,6 +95,19 @@ public class DetailsActivity extends AppCompatActivity {
             btnFav.setEnabled(true);
             btnFav.setChecked(fav);
         });
+        viewModel.trailers.observe(this, trailers -> {
+            if (trailers == null) {
+                return;
+            }
+            trailersAdapter.setItems(trailers);
+        });
+        viewModel.reviews.observe(this, reviews -> {
+            if (reviews == null) {
+                return;
+            }
+            reviewsAdapter.setItems(reviews);
+        });
+
 
         if (savedInstanceState != null) {
             Movie movie = savedInstanceState.getParcelable(ARG_MOVIE);

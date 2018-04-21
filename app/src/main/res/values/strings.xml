@@ -13,4 +13,6 @@
     <string name="label_score">Score</string>
     <string name="label_overview">Overview</string>
     <string name="label_favourite">Favourite</string>
+    <string name="label_trailers">Trailers</string>
+    <string name="label_reviews">Reviews</string>
 </resources>
