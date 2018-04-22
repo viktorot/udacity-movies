@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    private static final String ARG_FILTER = "filter";
+
     private MainViewModel viewModel;
 
     private RecyclerView recycler;
@@ -48,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
         recycler.setAdapter(adapter);
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+
+        if (savedInstanceState != null) {
+            Sort sort = (Sort) savedInstanceState.getSerializable(ARG_FILTER);
+            if (sort != null) {
+                viewModel.setSort(sort);
+            }
+        }
+
         viewModel.movies.observe(this, movies -> {
             if (movies == null) {
                 return;
@@ -94,5 +104,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void onDataChanged(List<Movie> data) {
         adapter.setData(data);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (viewModel != null) {
+            outState.putSerializable(ARG_FILTER, viewModel.getSort());
+        }
     }
 }

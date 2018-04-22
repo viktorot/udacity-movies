@@ -11,6 +11,7 @@ import org.viktorot.udacity_movies.db.MovieDb;
 import org.viktorot.udacity_movies.models.Movie;
 import org.viktorot.udacity_movies.models.Review;
 import org.viktorot.udacity_movies.models.Trailer;
+import org.viktorot.udacity_movies.repo.MoviesRepo;
 import org.viktorot.udacity_movies.service.MovieService;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class DetailsViewModel extends AndroidViewModel {
     }
 
     private void getTrailers(int id) {
-        Disposable disp = MovieService.getInstance().getTrailers(id)
+        Disposable disp = MoviesRepo.getInstance().getTrailers(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(data -> { this.trailers.setValue(data); }, this::onError);
 
@@ -52,7 +53,7 @@ public class DetailsViewModel extends AndroidViewModel {
     }
 
     private void getReviews(int id) {
-        Disposable disp = MovieService.getInstance().getReviews(id)
+        Disposable disp = MoviesRepo.getInstance().getReviews(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(data -> { this.reviews.setValue(data); }, this::onError);
 
@@ -61,7 +62,7 @@ public class DetailsViewModel extends AndroidViewModel {
 
     public void setFavourite(boolean favourite) {
         Movie movie = this.movie.getValue();
-        Disposable disp = MovieDb.setFavourite(getApplication().getContentResolver(), movie, favourite)
+        Disposable disp = MoviesRepo.getInstance().setFavourite(getApplication().getContentResolver(), movie, favourite)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> { this.favourite.setValue(favourite); }, this::onError);
 
@@ -69,7 +70,7 @@ public class DetailsViewModel extends AndroidViewModel {
     }
 
     private void getFavouriteStatus(long id) {
-        Disposable disp = MovieDb.isFavourite(getApplication().getContentResolver(), id)
+        Disposable disp = MoviesRepo.getInstance().isFavourite(getApplication().getContentResolver(), id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(fav -> { this.favourite.setValue(fav); }, this::onError);
 

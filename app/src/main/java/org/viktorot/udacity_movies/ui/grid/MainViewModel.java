@@ -46,6 +46,10 @@ public class MainViewModel extends AndroidViewModel {
         getData();
     }
 
+    public Sort getSort() {
+        return sort;
+    }
+
     private void onMoviesSuccess(List<Movie> movies) {
         Log.v(TAG, "data received");
         this.movies.setValue(movies);
