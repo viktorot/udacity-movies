@@ -64,8 +64,9 @@
 
                 <ToggleButton
                     android:id="@+id/fav"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/fav_background"
                     app:layout_constraintBottom_toBottomOf="@id/image"
                     app:layout_constraintStart_toEndOf="@id/image" />
 
@@ -141,10 +142,10 @@
                 style="@style/DetailsLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:visibility="gone"
                 android:padding="10dp"
-                android:text="@string/label_trailers"/>
+                android:text="@string/label_trailers"
+                android:textAlignment="center"
+                android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/trailers"
@@ -157,10 +158,10 @@
                 style="@style/DetailsLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
                 android:padding="10dp"
-                android:visibility="gone"
-                android:text="@string/label_reviews"/>
+                android:text="@string/label_reviews"
+                android:textAlignment="center"
+                android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/reviews"

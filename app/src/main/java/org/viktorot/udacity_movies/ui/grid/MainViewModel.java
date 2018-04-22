@@ -9,6 +9,7 @@ import android.util.Log;
 import org.viktorot.udacity_movies.db.MovieDb;
 import org.viktorot.udacity_movies.models.Movie;
 import org.viktorot.udacity_movies.models.Sort;
+import org.viktorot.udacity_movies.repo.MoviesRepo;
 import org.viktorot.udacity_movies.service.MovieService;
 
 import java.util.List;
@@ -35,27 +36,14 @@ public class MainViewModel extends AndroidViewModel {
         if (disposable != null) {
             disposable.dispose();
         }
-        disposable = MovieService.getInstance().getMovies(sort)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onMoviesSuccess, this::onMoviesError);
-    }
-
-    private void getFavourites() {
-        if (disposable != null) {
-            disposable.dispose();
-        }
-        disposable = MovieDb.getFavouries(getApplication().getContentResolver())
+        disposable = MoviesRepo.getInstance().getMovies(getApplication().getContentResolver(), sort)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onMoviesSuccess, this::onMoviesError);
     }
 
     public void setSort(Sort sort) {
         this.sort = sort;
-        if (sort == Sort.Favourites) {
-            getFavourites();
-        } else {
-            getData();
-        }
+        getData();
     }
 
     private void onMoviesSuccess(List<Movie> movies) {

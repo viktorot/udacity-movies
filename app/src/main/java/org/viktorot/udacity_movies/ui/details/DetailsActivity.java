@@ -58,8 +58,6 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        MovieService.create(BuildConfig.API_KEY);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -75,8 +73,8 @@ public class DetailsActivity extends AppCompatActivity {
 
         btnFav = findViewById(R.id.fav);
         btnFav.setEnabled(false);
-        btnFav.setTextOff(getResources().getString(R.string.label_favourite));
-        btnFav.setTextOn(getResources().getString(R.string.label_favourite));
+        btnFav.setTextOff("");
+        btnFav.setTextOn("");
         btnFav.setOnCheckedChangeListener((view, checked) -> {
             viewModel.setFavourite(checked);
         });
