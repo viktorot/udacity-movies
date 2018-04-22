@@ -15,7 +15,13 @@ import java.util.List;
 
 public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.ViewHolder> {
 
-    private ArrayList<Trailer> items = new ArrayList<>();
+    private final TrailersAdapter.Callback callback;
+
+    private final ArrayList<Trailer> items = new ArrayList<>();
+
+    public TrailersAdapter(@NonNull TrailersAdapter.Callback callback) {
+        this.callback = callback;
+    }
 
     public void setItems(@NonNull List<Trailer> items) {
         this.items.clear();
@@ -29,12 +35,20 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.ViewHo
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_trailer, parent, false);
 
-        return new TrailersAdapter.ViewHolder(view);
+        TrailersAdapter.ViewHolder holder = new TrailersAdapter.ViewHolder(view);
+
+        view.setOnClickListener(view1 -> {
+            this.callback.onClick(holder.data);
+        });
+
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Trailer item = items.get(position);
+
+        holder.data = item.key;
         holder.tvTitle.setText(item.name);
     }
 
@@ -44,14 +58,19 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.ViewHo
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
+        String data;
         final View root;
         final TextView tvTitle;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
             root = itemView.findViewById(R.id.root);
             tvTitle = itemView.findViewById(R.id.title);
         }
+    }
+
+    public interface Callback {
+        void onClick(@NonNull String key);
     }
 }

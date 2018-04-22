@@ -1,9 +1,13 @@
 package org.viktorot.udacity_movies.ui.details;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,7 +34,6 @@ import io.reactivex.functions.Consumer;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    private static String ARG_ID = "id";
     public static String ARG_MOVIE = "movie";
 
     private DetailsViewModel viewModel;
@@ -45,7 +48,7 @@ public class DetailsActivity extends AppCompatActivity {
     private ToggleButton btnFav;
 
     private RecyclerView rvTrailers;
-    private TrailersAdapter trailersAdapter = new TrailersAdapter();
+    private TrailersAdapter trailersAdapter = new TrailersAdapter(DetailsActivity.this::openTrailer);
 
     private RecyclerView rvReviews;
     private ReviewsAdapter reviewsAdapter = new ReviewsAdapter();
@@ -74,7 +77,9 @@ public class DetailsActivity extends AppCompatActivity {
         btnFav.setEnabled(false);
         btnFav.setTextOff(getResources().getString(R.string.label_favourite));
         btnFav.setTextOn(getResources().getString(R.string.label_favourite));
-        btnFav.setOnCheckedChangeListener((view, checked) -> { viewModel.setFavourite(checked); });
+        btnFav.setOnCheckedChangeListener((view, checked) -> {
+            viewModel.setFavourite(checked);
+        });
 
         rvTrailers = findViewById(R.id.trailers);
         rvTrailers.setLayoutManager(new LinearLayoutManager(this));
@@ -152,6 +157,19 @@ public class DetailsActivity extends AppCompatActivity {
         tvReleaseDate.setText(movie.releaseDate);
         tvOverview.setText(movie.overview);
     }
+
+    public void openTrailer(String key) {
+        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + key));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("http://www.youtube.com/watch?v=" + key));
+
+        try {
+            startActivity(appIntent);
+        } catch (ActivityNotFoundException ex) {
+            startActivity(webIntent);
+        }
+    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
