@@ -40,6 +40,8 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView tvReleaseDate;
     private TextView tvScore;
     private TextView tvOverview;
+    private TextView tvTrailersTitle;
+    private TextView tvReviewsTitle;
     private ToggleButton btnFav;
 
     private RecyclerView rvTrailers;
@@ -65,6 +67,8 @@ public class DetailsActivity extends AppCompatActivity {
         tvReleaseDate = findViewById(R.id.release_txt);
         tvScore = findViewById(R.id.score_txt);
         tvOverview = findViewById(R.id.overview_txt);
+        tvReviewsTitle = findViewById(R.id.reviews_title);
+        tvTrailersTitle = findViewById(R.id.trailers_title);
 
         btnFav = findViewById(R.id.fav);
         btnFav.setEnabled(false);
@@ -96,15 +100,19 @@ public class DetailsActivity extends AppCompatActivity {
             btnFav.setChecked(fav);
         });
         viewModel.trailers.observe(this, trailers -> {
-            if (trailers == null) {
+            if (trailers == null || trailers.isEmpty()) {
+                tvTrailersTitle.setVisibility(View.GONE);
                 return;
             }
+            tvTrailersTitle.setVisibility(View.VISIBLE);
             trailersAdapter.setItems(trailers);
         });
         viewModel.reviews.observe(this, reviews -> {
-            if (reviews == null) {
+            if (reviews == null || reviews.isEmpty()) {
+                tvReviewsTitle.setVisibility(View.GONE);
                 return;
             }
+            tvReviewsTitle.setVisibility(View.VISIBLE);
             reviewsAdapter.setItems(reviews);
         });
 

@@ -7,11 +7,18 @@
     android:layout_height="100dp">
 
     <android.support.constraint.Guideline
-        android:id="@+id/guide"
+        android:id="@+id/left_guide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.1" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/right_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
 
     <TextView
         android:id="@+id/title"
@@ -21,7 +28,7 @@
         android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/play"
-        app:layout_constraintStart_toStartOf="@id/guide"
+        app:layout_constraintStart_toStartOf="@id/left_guide"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -31,8 +38,7 @@
         android:scaleType="fitXY"
         android:src="@drawable/ic_play_vector"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-
+        app:layout_constraintEnd_toEndOf="@id/right_guide"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
